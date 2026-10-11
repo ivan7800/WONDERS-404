@@ -1,0 +1,57 @@
+{
+  "project": "EIFFEL 404",
+  "version": "7.6.1",
+  "monument": "Torre Eiffel",
+  "unit": "metre",
+  "official_anchors": {
+    "current_height_m": 330,
+    "initial_height_without_current_antenna_m": 312,
+    "base_width_m": 125,
+    "pillar_width_at_ground_m": 25,
+    "first_floor_height_m": 57,
+    "first_floor_area_m2": 4415,
+    "second_floor_height_m": 115,
+    "second_floor_area_m2": 1430,
+    "summit_height_m": 276,
+    "summit_area_m2": 250,
+    "metal_structure_mass_t": 7300,
+    "total_mass_t": 10100,
+    "iron_parts": 18038,
+    "rivets": 2500000,
+    "pillars": 4,
+    "public_stairs_to_second_floor": 674,
+    "total_steps_ground_to_top": 1665
+  },
+  "lifts": {
+    "to_second_floor": 5,
+    "visitor_pillars": [
+      "North",
+      "East",
+      "West"
+    ],
+    "south_services": [
+      "Jules Verne",
+      "freight/service"
+    ],
+    "upper": "2 batteries × 2 double cabins"
+  },
+  "model_policy": {
+    "HIGH": "Direct figure or system count from official Eiffel Tower sources.",
+    "MEDIUM": "Procedural interpolation, inferred geometry or real-time representation between documented anchors.",
+    "performance": "The model does not instantiate 18,038 exact CAD parts or 2.5 million rivets. It reproduces structural logic and representative density with merged GPU buffers."
+  },
+  "sources": [
+    {
+      "title": "Key figures",
+      "url": "https://www.toureiffel.paris/en/the-monument/key-figures"
+    },
+    {
+      "title": "Elevators",
+      "url": "https://www.toureiffel.paris/en/the-monument/lifts"
+    },
+    {
+      "title": "Stairs",
+      "url": "https://www.toureiffel.paris/en/news/visit/take-stairs-and-discover-eiffel-tower-new-way"
+    }
+  ]
+}
