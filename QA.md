@@ -12,6 +12,17 @@
 
 El usuario indicó que la prueba general en escritorio y móvil «va bien». No se registraron navegador, sistema operativo, escenas ni controles concretos; se considera un smoke test positivo informado por el usuario, no evidencia de haber completado toda la matriz de aceptación.
 
+## Smoke test de GitHub Pages — 12 de octubre de 2026
+
+URL revisada: `https://ivan7800.github.io/WONDERS-404/` en el navegador Chrome remoto de QA.
+
+- **PASS:** carga el atlas publicado, el título es correcto y aparecen los ocho destinos.
+- **PASS:** al abrir cada tarjeta, la página correspondiente carga dentro del visor con su nombre y ruta de GitHub Pages: Eiffel (`legacy/eiffel/index.html`) y Taj Mahal, Coliseo, Guiza, Machu Picchu, Petra, Angkor Wat y Sagrada Família (`scenes/*/index.html`).
+- **PASS:** Eiffel inicia su modo compatible en este navegador.
+- **BLOQUEADO por el entorno:** Chrome remoto informa `WebGL no disponible`. La vista Eiffel puede usar su modo compatible; las siete escenas procedurales muestran el aviso y no dibujan el modelo. Esto no demuestra un fallo en equipos con WebGL, pero tampoco valida allí su renderizado.
+- **PENDIENTE:** inspección visual con GPU real y prueba táctil en un móvil. Este navegador no permite emular una pantalla móvil ni habilitar WebGL.
+- La prueba abrió las ocho tarjetas y dejó `8/8` visitas guardadas en el almacenamiento local de esta sesión de navegador de QA.
+
 ## Comprobación base repetible — 12 de octubre de 2026
 
 Se añadió `python3 tests/run_core_qa.py`, una verificación sin paquetes Python de terceros (requiere Node.js para validar y ejecutar los módulos de geometría).
@@ -64,7 +75,7 @@ Este control no prueba compilación de shaders, dibujo WebGL, respuesta visual d
 - [ ] Audio: activar/desactivar en cada escena y comprobar que se detiene al cerrar.
 - [ ] Visitas: iniciar, recorrer y detener; probar selección manual durante el tour.
 - [ ] Progreso: marcar 4 paradas, regresar al atlas y confirmar persistencia tras recargar.
-- [ ] Revisar diferencias tras publicar en GitHub Pages.
+- [x] Revisar rutas y carga de los ocho destinos tras publicar en GitHub Pages; renderizado WebGL real queda pendiente por la limitación del navegador de QA.
 - [x] Añadir MIT al repositorio y documentar que la licencia de la copia Eiffel aquí incluida no cambia la del repositorio independiente.
 
 **No asignamos una calificación 9,5/10 sin estas pruebas.**
