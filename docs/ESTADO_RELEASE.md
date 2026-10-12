@@ -7,6 +7,13 @@
 
 El usuario indicó que «va bien» después de una prueba en escritorio y móvil. Lo registro como smoke test manual positivo, sin navegador, sistema operativo, escenas ni controles concretos identificados. El checklist completo y la recuperación de contexto WebGL siguen sin evidencia detallada.
 
+## Smoke test de GitHub Pages — 12 de octubre de 2026
+
+- **PASS de navegación:** la URL publicada carga el atlas y las ocho tarjetas; al abrirlas desde el catálogo, las ocho páginas de escena cargan bajo la subruta `/WONDERS-404/` con su título correcto.
+- **BLOQUEADO de render 3D:** el navegador Chrome remoto de QA indica `WebGL no disponible`. Eiffel activa su modo compatible; las siete escenas procedurales muestran el aviso de falta de WebGL y no dibujan los modelos. Hace falta verificar el render con una GPU/navegador habilitado.
+- **PENDIENTE:** prueba táctil en un móvil real; el navegador remoto no ofrece emulación móvil.
+- La sesión de QA abrió las ocho tarjetas y guardó el progreso `8/8` en su almacenamiento local.
+
 ## Hecho
 
 - Ocho destinos integrados: Eiffel mantiene su visor separado; los otros siete usan el renderer procedural compartido.
@@ -23,15 +30,14 @@ El usuario indicó que «va bien» después de una prueba en escritorio y móvil
 1. **Checklist visual detallado:** recorrer Eiffel y las siete escenas; revisar día, atardecer, noche, cámara, controles y una captura PNG por escena. Comprobar la recuperación del contexto si el navegador permite forzarla.
 2. **Prueba móvil detallada:** zoom táctil, paneles, encuadre, carga y captura.
 3. **Segundo sistema de escritorio**, solo si quieres validar tanto Windows como Linux Mint.
-4. **Smoke test de GitHub Pages:** abrir la URL real y comprobar los ocho destinos, porque una prueba local no cubre la ruta `/WONDERS-404/`.
+4. **Validación de hardware:** volver a comprobar el renderizado de las escenas con WebGL real y la interacción táctil en un móvil. El smoke test de las rutas en GitHub Pages ya está hecho.
 
 ## Estimación restante
 
-- Completar el checklist en escritorio y móvil: **35–50 min**.
-- Smoke test de GitHub Pages: **5–10 min**.
+- Completar el checklist visual en un escritorio con WebGL y en móvil: **35–50 min**.
 - Segundo sistema de escritorio, si se quiere validar Windows y Linux Mint: **otros 20–30 min**.
 
-**Total estimado desde ahora:** 40–60 min con escritorio, móvil y Pages; 60–90 min si además se valida el segundo sistema. No incluye corregir defectos visuales que aparezcan durante esas pruebas.
+**Total estimado desde ahora:** 35–50 min para escritorio y móvil; 55–80 min si además se valida el segundo sistema. No incluye corregir defectos visuales que aparezcan durante esas pruebas.
 
 ## Evidencia de este paquete
 
