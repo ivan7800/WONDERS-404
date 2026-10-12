@@ -111,4 +111,4 @@ Consulta [QA.md](QA.md) para el alcance y las limitaciones de las pruebas.
 
 ## Licencia y atribución
 
-Proyecto independiente, sin afiliación con la Société d'Exploitation de la Tour Eiffel. Las marcas y el monumento pertenecen a sus titulares. Este repositorio no declara una licencia de reutilización; pide autorización al autor antes de reutilizar o redistribuir código o recursos.
+Proyecto independiente, sin afiliación con la Société d'Exploitation de la Tour Eiffel. Las marcas y el monumento pertenecen a sus titulares. La copia de estos archivos incluida en WONDERS-404 se distribuye bajo la licencia MIT indicada en la raíz de ese repositorio. Esto no modifica por sí solo las condiciones del repositorio independiente EIFFEL-404.

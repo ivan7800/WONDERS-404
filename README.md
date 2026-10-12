@@ -70,13 +70,13 @@ python3 tests/browser_smoke.py
 
 ## Publicación en GitHub Pages
 
-El proyecto usa enlaces relativos y es apto para servir desde la raíz de un repositorio en Pages. **Aún no se ha subido automáticamente a GitHub.** Ver `GITHUB_SETUP.md` y `QA.md` antes de publicar. Está pendiente decidir la licencia del repositorio y revisar compatibilidad y rendimiento en hardware real.
+El proyecto usa enlaces relativos y está publicado en [`ivan7800/WONDERS-404`](https://github.com/ivan7800/WONDERS-404), rama `main`. Para activar o revisar GitHub Pages, consulta `GITHUB_SETUP.md`; la lista de aceptación está en `QA.md`. La validación visual detallada y el rendimiento en hardware real siguen pendientes.
 
 Consulta [docs/ESTADO_RELEASE.md](docs/ESTADO_RELEASE.md) para ver lo que falta y el tiempo estimado de validación.
 
 ## Derechos de autor
 
-El código base de Eiffel y sus recursos se conservan como parte de una copia aportada por el mismo propietario del proyecto. No se incluyen recursos de terceros obtenidos por scraping. No se declara una licencia de código abierto para esta edición hasta que el propietario elija una.
+El código y los recursos originales de este proyecto, incluida la copia de Eiffel 404, se distribuyen bajo la licencia MIT que figura en `LICENSE`. Esta licencia cubre esta copia dentro de WONDERS-404; no cambia por sí sola las condiciones del repositorio independiente `EIFFEL-404`. No se han incluido recursos obtenidos por scraping. Las marcas y los derechos de terceros, si los hubiera, no se transfieren por esta licencia.
 
 ## Vista previa del atlas
 

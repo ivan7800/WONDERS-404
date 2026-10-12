@@ -65,6 +65,6 @@ Este control no prueba compilación de shaders, dibujo WebGL, respuesta visual d
 - [ ] Visitas: iniciar, recorrer y detener; probar selección manual durante el tour.
 - [ ] Progreso: marcar 4 paradas, regresar al atlas y confirmar persistencia tras recargar.
 - [ ] Revisar diferencias tras publicar en GitHub Pages.
-- [ ] Decidir licencia y documentar derechos de los recursos.
+- [x] Añadir MIT al repositorio y documentar que la licencia de la copia Eiffel aquí incluida no cambia la del repositorio independiente.
 
 **No asignamos una calificación 9,5/10 sin estas pruebas.**

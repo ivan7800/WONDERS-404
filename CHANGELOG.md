@@ -1,5 +1,11 @@
 # Changelog — WONDERS 404
 
+## Actualización de licencia MIT — 12 de octubre de 2026
+
+- Añadido `LICENSE` con MIT para el código y los recursos originales distribuidos en este repositorio, incluida la copia de Eiffel 404.
+- Aclarado en la documentación que esta licencia cubre la copia incluida aquí y no modifica por sí sola la licencia del repositorio independiente `EIFFEL-404`.
+- Actualizadas las instrucciones de GitHub Pages y el estado de publicación tras la subida a `main`.
+
 ## Paquete GitHub v0.5.1 RC — 12 de octubre de 2026
 
 - Revisadas y actualizadas las instrucciones para que el contenido del ZIP se coloque directamente en la raíz del repositorio.

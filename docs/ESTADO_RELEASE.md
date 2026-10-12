@@ -15,23 +15,23 @@ El usuario indicó que «va bien» después de una prueba en escritorio y móvil
 - QA base sin dependencias Python de terceros y `.gitignore` para mantener limpio el repositorio.
 - Revisión estática: sin credenciales o secretos detectados; no se encontró `eval` ni dependencias CDN en el runtime. El almacenamiento de visitas/favoritos permanece en `localStorage`.
 - Rutas relativas y referencias locales comprobadas para GitHub Pages.
+- Licencia MIT añadida para el contenido original incluido en este repositorio, incluida la copia de Eiffel 404. No cambia las condiciones del repositorio independiente `EIFFEL-404`.
+- Versión publicada en `ivan7800/WONDERS-404`, rama `main`.
 
 ## Pendiente para declarar la publicación lista
 
 1. **Checklist visual detallado:** recorrer Eiffel y las siete escenas; revisar día, atardecer, noche, cámara, controles y una captura PNG por escena. Comprobar la recuperación del contexto si el navegador permite forzarla.
 2. **Prueba móvil detallada:** zoom táctil, paneles, encuadre, carga y captura.
 3. **Segundo sistema de escritorio**, solo si quieres validar tanto Windows como Linux Mint.
-4. **Licencia y créditos:** decidir qué licencia autoriza el proyecto y confirmar que también cubre el código/recursos incluidos de Eiffel 404. No se debe añadir una licencia abierta hasta aclarar ese alcance.
-5. **Smoke test de GitHub Pages:** después de subir, abrir la URL real y comprobar los ocho destinos, porque una prueba local no cubre la ruta `/WONDERS-404/`.
+4. **Smoke test de GitHub Pages:** abrir la URL real y comprobar los ocho destinos, porque una prueba local no cubre la ruta `/WONDERS-404/`.
 
 ## Estimación restante
 
-- Completar el checklist en un escritorio: **20–30 min**.
-- Completar el checklist móvil: **10–15 min**.
-- Segundo escritorio, si se quiere validar ambos sistemas: **otros 20–30 min**.
-- Licencia/créditos y smoke test tras publicación: **15–30 min**, según los derechos confirmados y el tiempo de despliegue.
+- Completar el checklist en escritorio y móvil: **35–50 min**.
+- Smoke test de GitHub Pages: **5–10 min**.
+- Segundo sistema de escritorio, si se quiere validar Windows y Linux Mint: **otros 20–30 min**.
 
-**Total estimado desde ahora:** 45–75 min si se completa el checklist en un escritorio y móvil; 65–105 min si además se valida el segundo sistema. No incluye corregir defectos visuales que aparezcan durante esas pruebas.
+**Total estimado desde ahora:** 40–60 min con escritorio, móvil y Pages; 60–90 min si además se valida el segundo sistema. No incluye corregir defectos visuales que aparezcan durante esas pruebas.
 
 ## Evidencia de este paquete
 
