@@ -16,7 +16,7 @@
 
 - Revisadas y actualizadas las instrucciones para que el contenido del ZIP se coloque directamente en la raíz del repositorio.
 - Alineada la versión visible de la portada con v0.5.1 RC.
-- Documentado que el ZIP no lleva `LICENSE`; no se atribuyen permisos de reutilización a Eiffel 404 sin confirmación de derechos.
+- El ZIP inicial se distribuyó sin `LICENSE`; queda supersedido por el paquete actual, que incluye la licencia MIT del repositorio. La licencia del repositorio independiente `EIFFEL-404` no cambia.
 - El usuario informó que la prueba general en escritorio y móvil «va bien». La validación gráfica detallada y el smoke test de GitHub Pages siguen pendientes.
 
 ## Revisión de release — 12 de octubre de 2026
