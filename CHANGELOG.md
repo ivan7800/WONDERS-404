@@ -6,6 +6,12 @@
 - Aclarado en la documentación que esta licencia cubre la copia incluida aquí y no modifica por sí sola la licencia del repositorio independiente `EIFFEL-404`.
 - Actualizadas las instrucciones de GitHub Pages y el estado de publicación tras la subida a `main`.
 
+## Smoke test de GitHub Pages — 12 de octubre de 2026
+
+- Confirmada la carga del atlas y la navegación desde el catálogo a las ocho rutas de escena en la URL publicada.
+- El navegador remoto de QA no ofrece WebGL: Eiffel entra en modo compatible y las siete escenas procedurales no dibujan sus modelos en esa sesión. El render real con GPU y la prueba táctil móvil quedan pendientes.
+- Registrados los límites y resultados en `QA.md` y `docs/ESTADO_RELEASE.md`.
+
 ## Paquete GitHub v0.5.1 RC — 12 de octubre de 2026
 
 - Revisadas y actualizadas las instrucciones para que el contenido del ZIP se coloque directamente en la raíz del repositorio.
