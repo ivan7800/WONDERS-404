@@ -17,6 +17,19 @@ export function petra(){
  }
  // Natural rock mass behind the facade.
  box(0,-2,-26,65,39,18,shade);for(let k=0;k<14;k++)box(-28+k*4.3,16+Math.sin(k)*2,-27,4,4+Math.cos(k*.7)*2,19,k%2?rose:sand);
+ // Broken sandstone cliff profile: stepped shoulders and broad erosion bands frame the Treasury.
+ for(let side of [-1,1]){
+  for(let level=0;level<5;level++){
+   const width=32-level*3.2,top=34-level*2.1;
+   const x=side*(width+2.2*Math.sin(level*1.7));
+   add([[x,-1.8,-34],[x+side*5,-1.8,-31],[x+side*4,top-4,-31],
+    [x+side*1.8,top,-33],[x-side*2.2,top-2,-35]],level%2?rose:sand);
+  }
+  for(let band=0;band<6;band++){
+   const x=side*(27+band*2.4),y=3+band*5.2;
+   box(x,y,-16,4.5,.22,7.8,band%2?warm:shade);
+  }
+ }
  // Al-Khazneh / Treasury stylized symmetrical facade; z front closer to camera.
  box(0,-1,-15,37,25,4,rose);box(0,22,-15,41,2.7,5,warm);box(0,3,-12.2,8,17,.55,dark);
  // Lower level columns & recessed side bays
@@ -32,6 +45,12 @@ export function petra(){
  for(const x of [-16,-11,11,16])box(x,22,-8.7,1,9.5,1,warm);
  for(const x of [-4.5,4.5])box(x,22,-8.2,1,9.5,1,warm);
  box(0,31,-10,11,2,4,sand);cone(0,33,-10,5.6,5,warm,16);
+ // Small tholos colonnade under the urn, a defining feature of the upper facade.
+ for(let i=0;i<12;i++){
+  const a=i*Math.PI/6,x=Math.cos(a)*3.9,z=-10+Math.sin(a)*2.0;
+  box(x,31.2,z,.32,4.2,.34,warm);
+  box(x,35.15,z,.55,.24,.52,warm);
+ }
  // Central urn and top pediments.
  box(0,38,-10,.9,2,.9,shade);cone(0,40,-10,1.5,2,warm);
  for(const side of [-1,1])add([[side*7,33,-9],[side*19,33,-9],[side*13,38,-9]],sand);

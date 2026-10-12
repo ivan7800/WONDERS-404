@@ -1,41 +1,92 @@
-// Original stylized geometric landscape. Not an exact survey of the Giza plateau.
+// Artistic interpretation of Giza, not a measured archaeological survey.
 export function giza(){
- const faces=[];const face=(v,c)=>faces.push({vertices:v,color:c});
- const sand=[.67,.50,.31],dune=[.75,.57,.35],stone=[.73,.60,.43],shade=[.52,.40,.28],limestone=[.77,.68,.52];
- function box(x,y,z,w,h,d,col){let a=x-w/2,b=x+w/2,f=z-d/2,g=z+d/2;const v=[[a,y,f],[b,y,f],[b,y+h,f],[a,y+h,f],[a,y,g],[b,y,g],[b,y+h,g],[a,y+h,g]];for(const ids of [[0,1,2,3],[5,4,7,6],[4,0,3,7],[1,5,6,2],[3,2,6,7],[4,5,1,0]])face(ids.map(i=>v[i]),col)}
- function pyramid(cx,cz,side,height,stepCount){
-  let bottom=0;for(let i=0;i<stepCount;i++){
-   const t=i/stepCount,tt=(i+1)/stepCount;const half=side/2*(1-t),upper=side/2*(1-tt),lo=bottom+height*t,hi=bottom+height*tt;
-   const ring=(r,y)=>[[cx-r,y,cz-r],[cx+r,y,cz-r],[cx+r,y,cz+r],[cx-r,y,cz+r]];let a=ring(half,lo),b=ring(upper,hi);
-   for(let k=0;k<4;k++)face([a[k],a[(k+1)%4],b[(k+1)%4],b[k]],[(.68+i%3*.025)*(k%2?.87:1),.56*(k%2?.88:1),.38*(k%2?.88:1)]);
+ const faces=[];const add=(vertices,color)=>faces.push({vertices,color});
+ const sand=[.70,.53,.34],dune=[.77,.60,.39],limestone=[.82,.70,.51],
+       worn=[.66,.53,.38],shadow=[.43,.34,.26],bedrock=[.59,.48,.36];
+ const quad=(a,b,c,d,color)=>add([a,b,c,d],color);
+ function box(x,y,z,w,h,d,color){
+  const a=x-w/2,b=x+w/2,f=z-d/2,g=z+d/2;
+  const v=[[a,y,f],[b,y,f],[b,y+h,f],[a,y+h,f],[a,y,g],[b,y,g],[b,y+h,g],[a,y+h,g]];
+  for(const ids of [[0,1,2,3],[5,4,7,6],[4,0,3,7],[1,5,6,2],[3,2,6,7],[4,5,1,0]])add(ids.map(i=>v[i]),color);
+ }
+ const ring=(x,z,r,y)=>[[x-r,y,z-r],[x+r,y,z-r],[x+r,y,z+r],[x-r,y,z+r]];
+ function pyramid(cx,cz,side,height,courses,exposure){
+  for(let course=0;course<courses;course++){
+   const t=course/courses,u=(course+1)/courses;
+   const lower=ring(cx,cz,side*(1-t)/2,height*t);
+   const upper=ring(cx,cz,side*(1-u)/2,height*u);
+   for(let face=0;face<4;face++){
+    const a=lower[face],b=lower[(face+1)%4],c=upper[(face+1)%4],d=upper[face];
+    const number=course*4+face;
+    const color=(number*13%17<exposure&&course<courses-2)?limestone:
+      (number*7%11<3?worn:(face===1||face===2?bedrock:sand));
+    const steps=course<4?5:course<courses-4?4:2;
+    const lerp=(p,q,v)=>p.map((n,i)=>n+(q[i]-n)*v);
+    for(let j=0;j<steps;j++){
+     const x=j/steps,y=(j+1)/steps,variation=number*19+j*11;
+     const tint=variation%13===0?.84:variation%9===0?1.09:1;
+     quad(lerp(a,b,x),lerp(a,b,y),lerp(d,c,y),lerp(d,c,x),color.map(v=>Math.min(1,v*tint)));
+    }
+   }
   }
-  // Four clean tip faces eliminate a flat cap.
-  const r=side/(2*stepCount),last=ringTop(cx,cz,r,height*(stepCount-1)/stepCount);const top=[cx,height,cz];for(let k=0;k<4;k++)face([last[k],last[(k+1)%4],top],stone);
+  // An inset doorway and courses of partially surviving casing stone.
+  box(cx,2.2,cz+side*.42,side*.095,2.9,.16,shadow);
+  box(cx,4.8,cz+side*.39,side*.11,.38,.65,limestone);
  }
- function ringTop(x,z,r,y){return [[x-r,y,z-r],[x+r,y,z-r],[x+r,y,z+r],[x-r,y,z+r]]}
- // Surface tiles with subtle rolling terrain and a warmer distant horizon.
- const n=24,span=160;for(let i=0;i<n;i++)for(let j=0;j<n;j++){let x=-span/2+i*span/n,z=-span/2+j*span/n;const h=(xx,zz)=>-.8+Math.sin(xx*.078)*Math.cos(zz*.067)*.28+Math.sin(zz*.17+xx*.11)*.13;face([[x,h(x,z),z],[x+span/n,h(x+span/n,z),z],[x+span/n,h(x+span/n,z+span/n),z+span/n],[x,h(x,z+span/n),z+span/n]],(i+j)%5===0?dune:sand)}
- // Relative sizes and placement are artistically simplified, not surveyed coordinates.
- pyramid(-19,-15,30,26,18);pyramid(19,-24,27,24,17);pyramid(33,18,17,14,13);
- // Entrance pathway and mastaba-like blocks.
- for(let j=0;j<12;j++)box(-2,-.35,22+j*3,3.3,.22,2.45,j%2?limestone:shade);
- for(let i=0;i<7;i++)box(-43+i*3,-.35,31+(i%2)*4,2.5,1.5+(i%3)*.45,3.2,stone);
- // Sphinx facing forward: sculptural faceted head, headdress, body and paws.
+ // Shared vertex heights prevent cracks between adjacent ground tiles.
+ const n=36,span=172,step=span/n;
+ const height=(x,z)=>-.82+Math.sin(x*.055)*Math.cos(z*.047)*.42+Math.sin(z*.13+x*.08)*.13;
+ for(let i=0;i<n;i++)for(let j=0;j<n;j++){
+  const x=-span/2+i*step,z=-span/2+j*step;
+  quad([x,height(x,z),z],[x+step,height(x+step,z),z],
+   [x+step,height(x+step,z+step),z+step],[x,height(x,z+step),z+step],
+   (i*11+j*7)%17<5?dune:sand);
+ }
+ // Placement preserves the existing points of interest and camera views.
+ pyramid(-19,-15,30,26,20,3);pyramid(19,-24,27,24,19,5);pyramid(33,18,17,14,15,2);
+ for(const [x,z,w] of [[-19,-15,34],[19,-24,31],[33,18,20]]){
+  box(x,-.48,z,w,.42,w,bedrock);
+  for(let k=-2;k<=2;k++)box(x+k*w*.12,-.34,z+w*.53,w*.1,.18,.7,k%2?limestone:worn);
+ }
+ for(let j=0;j<15;j++){
+  const z=23+j*3.4;
+  box(-2,-.33,z,4.2,.14,2.7,j%4===0?limestone:worn);
+  for(const s of [-1,1])box(-2+s*2.5,-.35,z,.26,.28,2.4,shadow);
+ }
+ for(let i=0;i<9;i++)box(-45+(i%5)*3.6,-.36,34+Math.floor(i/5)*5.2,
+   2.5,1.2+i%3*.35,3.1,i%3?bedrock:worn);
+ // Faceted lion body and headdress make the Sphinx a recognizable sculpture.
  const sx=-10,sz=29;
- box(sx,-.3,sz,12,3.8,19,stone);box(sx,2.7,sz-5.5,8,3.1,7,shade);
- box(sx,5.5,sz-6.5,4.6,5.2,4.2,limestone);box(sx,7.1,sz-8.75,3.3,1.25,1.9,stone);
- box(sx,5.0,sz-9,2.4,1.2,2.2,limestone);box(sx-4,-.25,sz-11,3.2,2.25,9,stone);box(sx+4,-.25,sz-11,3.2,2.25,9,stone);
- // Horizontal monument platforms and low boundary stones.
- box(-19,-.42,-15,34,.47,34,shade);box(19,-.42,-24,31,.47,31,shade);box(33,-.42,18,20,.47,20,shade);
- for(let i=0;i<14;i++){let x=-65+i*9.5;box(x,-.42,55,5,.16,2,i%3?dune:stone)}
-
- // Fase 16: pequeñas zonas de roca erosionada y sillares alrededor de la necrópolis.
- for(let i=0;i<90;i++){
-  const theta=i*2.399963,dist=42+(i%9)*3;
-  const x=Math.cos(theta)*dist,z=Math.sin(theta)*dist+6;
-  if(x>-40&&x<53&&z>-45&&z<38)continue;
-  box(x,-.72,z,.8+(i%4)*.7,.16+(i%3)*.12,1.4+(i%5)*.25,i%4===0?limestone:shade);
+ function ellipseRing(x,y,z,rx,rz,count=12){return Array.from({length:count},(_,i)=>{
+  const a=i*Math.PI*2/count;return [x+Math.cos(a)*rx,y,z+Math.sin(a)*rz];
+ })}
+ function connect(a,b,color){for(let i=0;i<a.length;i++)quad(a[i],a[(i+1)%a.length],b[(i+1)%b.length],b[i],color)}
+ connect(ellipseRing(sx,.15,sz+3,6.2,10.4),ellipseRing(sx,2.55,sz+3,5.5,9.5),worn);
+ connect(ellipseRing(sx,2.55,sz+3,5.5,9.5),ellipseRing(sx,4,sz+2,3.5,7.1),limestone);
+ for(const side of [-1,1]){
+  connect(ellipseRing(sx+side*4,1.05,sz+7,2.5,3.2,10),
+   ellipseRing(sx+side*3.8,3.4,sz+7,2,2.5,10),bedrock);
+  box(sx+side*3.6,-.28,sz-7,2.7,1.35,9.6,limestone);
+  box(sx+side*3.6,-.3,sz-11.1,3,.65,2.6,worn);
+  for(let toe=0;toe<3;toe++)box(sx+side*3.6+(toe-1)*.72,-.26,sz-12.2,.58,.32,1,bedrock);
  }
- for(let j=0;j<14;j++)box(-10+(j%7)*1.25,3.9,27+j%2*.21,.11,.25,.4,j%2?limestone:stone);
+ connect(ellipseRing(sx,3.1,sz-5.2,2.9,2.55,10),
+  ellipseRing(sx,9.2,sz-5.3,2.55,2,10),bedrock);
+ connect(ellipseRing(sx,5.35,sz-7.6,1.65,1.15,10),
+  ellipseRing(sx,9.45,sz-7.45,2,1.25,10),limestone);
+ for(const s of [-1,1]){
+  add([[sx+s*2.2,9.5,sz-6.5],[sx+s*3.6,8.4,sz-6.2],
+   [sx+s*3.2,3.25,sz-6.3],[sx+s*1.9,5.1,sz-7]],worn);
+  box(sx+s*.9,8.15,sz-8.53,.65,.13,.2,shadow);
+ }
+ box(sx,6.35,sz-8.48,1.35,.16,.24,shadow);
+ box(sx,5.45,sz-8.15,1.65,.13,.2,worn);
+ box(sx,9.35,sz-7.8,4.4,.52,.55,limestone);
+ for(let i=0;i<35;i++){
+  const theta=i*2.399963,dist=40+(i%8)*3,x=Math.cos(theta)*dist,z=Math.sin(theta)*dist+7;
+  if(x>-40&&x<53&&z>-45&&z<38)continue;
+  box(x,-.64,z,.9+(i%4)*.55,.18+(i%3)*.16,1.2+(i%5)*.28,i%4?bedrock:limestone);
+ }
+ for(let i=0;i<7;i++)box(-65+i*8,-.42,57,4.5,.17,2.2,i%3?dune:bedrock);
  return faces;
 }

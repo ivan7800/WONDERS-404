@@ -3,6 +3,7 @@ export function tajMahal(){const faces=[];
 function face(vertices,color){faces.push({vertices,color})}
 function box(x,y,z,w,h,d,color){const a=x-w/2,b=x+w/2,c=y,e=y+h,f=z-d/2,g=z+d/2;const v=[[a,c,f],[b,c,f],[b,e,f],[a,e,f],[a,c,g],[b,c,g],[b,e,g],[a,e,g]];for(const q of [[0,1,2,3],[5,4,7,6],[4,0,3,7],[1,5,6,2],[3,2,6,7],[4,5,1,0]])face(q.map(i=>v[i]),color)}
 function cylinder(x,y,z,r,h,col,segments=16){for(let i=0;i<segments;i++){let a=i*Math.PI*2/segments,b=(i+1)*Math.PI*2/segments;face([[x+Math.cos(a)*r,y,z+Math.sin(a)*r],[x+Math.cos(b)*r,y,z+Math.sin(b)*r],[x+Math.cos(b)*r,y+h,z+Math.sin(b)*r],[x+Math.cos(a)*r,y+h,z+Math.sin(a)*r]],col)}}
+function taper(x,y,z,r0,r1,h,col,segments=20){for(let i=0;i<segments;i++){let a=i*Math.PI*2/segments,b=(i+1)*Math.PI*2/segments;face([[x+Math.cos(a)*r0,y,z+Math.sin(a)*r0],[x+Math.cos(b)*r0,y,z+Math.sin(b)*r0],[x+Math.cos(b)*r1,y+h,z+Math.sin(b)*r1],[x+Math.cos(a)*r1,y+h,z+Math.sin(a)*r1]],col)}}
 function dome(x,y,z,r,height,col,segments=24,rings=10){for(let j=0;j<rings;j++){const t=j/rings,u=(j+1)/rings;const rr=r*Math.pow(Math.cos(t*Math.PI/2),.7),ss=r*Math.pow(Math.cos(u*Math.PI/2),.7);for(let i=0;i<segments;i++){const a=i*Math.PI*2/segments,b=(i+1)*Math.PI*2/segments;face([[x+rr*Math.cos(a),y+height*t,z+rr*Math.sin(a)],[x+rr*Math.cos(b),y+height*t,z+rr*Math.sin(b)],[x+ss*Math.cos(b),y+height*u,z+ss*Math.sin(b)],[x+ss*Math.cos(a),y+height*u,z+ss*Math.sin(a)]],col)}}}
 // garden, raised marble plinth, four facade piers and arch-inspired recesses
 box(0,-.35,0,58,.3,54,[.30,.39,.29]);box(0,0,0,23,.9,23,[.67,.66,.62]);box(0,.9,0,15,7.5,13,[.83,.82,.76]);box(0,8.4,0,16,.55,14,[.72,.71,.67]);
@@ -11,7 +12,15 @@ for(const x of [-6.2,6.2])for(const z of [-5.3,5.3]){box(x,.9,z,2.5,8.0,2.5,[.87
 for(const z of [-6.55,6.55]){box(0,1.25,z,3.8,5.8,.08,[.24,.27,.29]);box(0,6.8,z,4.6,.65,.14,[.77,.71,.67])}
 for(const x of [-7.55,7.55]){box(x,1.5,0,.1,5.7,3.5,[.27,.30,.31])}
 cylinder(0,8.95,0,5.6,1.0,[.73,.72,.68],32);dome(0,9.9,0,5.2,6.7,[.94,.91,.84],32,12);cylinder(0,16.6,0,.25,1.0,[.75,.58,.27]);
-for(const x of [-10,10])for(const z of [-10,10]){cylinder(x,.9,z,.9,10.4,[.85,.82,.76],20);for(const level of [3.4,6.9,10.5])cylinder(x,level,z,1.18,.26,[.68,.65,.60],20);dome(x,11.3,z,1.2,2.1,[.87,.86,.81],20);cylinder(x,13.4,z,.08,.7,[.60,.47,.23],8)}
+for(const x of [-10,10])for(const z of [-10,10]){
+ taper(x,.9,z,1.02,.72,10.4,[.85,.82,.76],20);
+ for(const level of [3.4,6.9,10.5]){
+  cylinder(x,level,z,1.18,.22,[.68,.65,.60],20);
+  cylinder(x,level+.22,z,1.04,.10,[.92,.89,.82],20);
+ }
+ dome(x,11.3,z,1.2,2.1,[.87,.86,.81],20);
+ taper(x,13.35,z,.15,.035,.72,[.60,.47,.23],8);
+}
 // Pointed-arch silhouettes, marble inlays, and recessed portal layers.
 const ivory=[.95,.9,.81], sandstone=[.72,.53,.43], deep=[.11,.16,.19];
 function archFront(cx,y,z,w,h,col){const a=w/2;face([[cx-a,y,z],[cx+a,y,z],[cx+a,y+h*.69,z],[cx,y+h,z],[cx-a,y+h*.69,z]],col)}

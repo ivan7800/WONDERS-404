@@ -3,10 +3,10 @@ import {colosseum} from '../../js/monuments/colosseum.js';
 import {points} from './tour-data.js';
 const canvas=document.getElementById('view');const status=document.getElementById('message');
 try {
- const renderer=createRenderer(canvas,colosseum());let yaw=.65,pitch=.26,zoom=77,auto=false,time='day',dragging=false,x=0,y=0,last=0,raf=0,tour=false,photo=false,target=null,selected=0;const pointers=new Map();let pinchDistance=0;
+ const geometry=colosseum();let renderer=createRenderer(canvas,geometry),contextAvailable=true;let yaw=.65,pitch=.26,zoom=77,auto=false,time='day',dragging=false,x=0,y=0,last=0,raf=0,tour=false,photo=false,target=null,selected=0;const pointers=new Map();let pinchDistance=0;
  const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
  const presets={day:{sky:[.71,.76,.79],light:1.04},sunset:{sky:[.72,.42,.30],light:.86},night:{sky:[.045,.060,.12],light:.51,night:1}};
- function render(t){const dt=Math.min(Math.max((t-last)/1000,0),.06);last=t;if(target){const a=1-Math.exp(-dt*2.7);yaw+=(target.yaw-yaw)*a;pitch+=(target.pitch-pitch)*a;zoom+=(target.zoom-zoom)*a;if(Math.abs(yaw-target.yaw)+Math.abs(pitch-target.pitch)+Math.abs(zoom-target.zoom)<.025)target=null;}else if(auto)yaw+=dt*.11;renderer.draw({yaw,pitch,zoom,...presets[time]});raf=requestAnimationFrame(render)}
+ function render(t){const dt=Math.min(Math.max((t-last)/1000,0),.06);last=t;if(target){const a=1-Math.exp(-dt*2.7);yaw+=(target.yaw-yaw)*a;pitch+=(target.pitch-pitch)*a;zoom+=(target.zoom-zoom)*a;if(Math.abs(yaw-target.yaw)+Math.abs(pitch-target.pitch)+Math.abs(zoom-target.zoom)<.025)target=null;}else if(auto)yaw+=dt*.11;if(contextAvailable)renderer.draw({yaw,pitch,zoom,...presets[time]});raf=requestAnimationFrame(render)}
  function updateTime(v){time=v;for(const name of ['day','sunset','night'])document.getElementById(name).setAttribute('aria-pressed',String(name===v))}
  document.getElementById('orbit').onclick=e=>{tour=false;document.getElementById('tour').setAttribute('aria-pressed','false');auto=!auto;e.currentTarget.setAttribute('aria-pressed',String(auto))};
  for(const name of ['day','sunset','night'])document.getElementById(name).onclick=()=>updateTime(name);
@@ -31,4 +31,5 @@ try {
  updateTime('day');raf=requestAnimationFrame(render);
 }catch(err){status.textContent='Este navegador no puede iniciar WebGL: '+err.message;console.error(err)}
 
-canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();status.textContent='Se ha interrumpido WebGL. Recarga la escena para recuperarla.';});
+canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();contextAvailable=false;cancelAnimationFrame(raf);status.textContent='Se ha interrumpido WebGL. Intentando recuperar la escena…';});
+canvas.addEventListener('webglcontextrestored',()=>{try{renderer=createRenderer(canvas,geometry);contextAvailable=true;status.textContent='WebGL restaurado. La exploración puede continuar.';if(!document.hidden){last=performance.now();cancelAnimationFrame(raf);raf=requestAnimationFrame(render)}}catch(error){status.textContent='No se pudo recuperar WebGL. Recarga la escena.';console.error(error)}});

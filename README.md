@@ -1,6 +1,6 @@
 # WONDERS 404 — Atlas of Wonders
 
-**Edición Explorador / Definitive RC1 (2026-10-11)** · Una colección artística de ocho destinos en 3D, totalmente local-first y compatible con GitHub Pages.
+**Edición Explorador / Remasterización visual — resiliencia WebGL (2026-10-12)** · Una colección artística de ocho destinos en 3D, totalmente local-first y compatible con GitHub Pages.
 
 > **Estado:** versión candidata para pruebas. No es un simulador fotorrealista ni una digitalización arqueológica. La experiencia 3D real sigue requiriendo validación visual y de rendimiento en navegadores con WebGL habilitado.
 
@@ -10,6 +10,8 @@
 - Taj Mahal (Agra), Coliseo (Roma), Pirámides de Guiza (Egipto), Machu Picchu (Perú), Petra (Jordania), Angkor Wat (Camboya) y Sagrada Família (Barcelona): siete modelos geométricos interactivos y originales.
 
 Cada escenario nuevo incluye cámara libre, zoom, rotación automática, tres atmósferas, visita a cuatro puntos, guardado PNG, sonido ambiente opcional, narración del texto cuando el navegador la permite y opciones de calidad gráfica. Los modelos siguen siendo simplificados y estilizados.
+
+La pasada visual añade detalle específico a Guiza, Petra, Taj Mahal, Sagrada Família, Machu Picchu y Angkor Wat. El Coliseo conserva su modelo de arcadas y graderíos. Las ocho escenas requieren inspección visual y de rendimiento en WebGL real antes de considerarlas verificadas.
 
 ## Arranque local
 
@@ -59,15 +61,18 @@ El audio **no se reproduce automáticamente**. Se genera con Web Audio directame
 ## Calidad y pruebas
 
 ```bash
+python3 tests/run_core_qa.py
 python3 -m pytest -q tests
 python3 tests/browser_smoke.py
 ```
 
-`browser_smoke.py` precisa Playwright y Chromium. Dada la política de red y WebGL del entorno donde se desarrolló esta edición, inyecta HTML y JS en una página local de pruebas; **los controles 3D se verifican con un renderizador simulado**. Consulta `QA.md` para conocer el alcance, las pruebas completadas y las pendientes.
+`run_core_qa.py` solo requiere Python 3 y Node.js; verifica sintaxis, geometría, referencias HTML, ciclo de contexto WebGL y modelos GLB. Si el sistema permite sockets, también prueba las rutas HTTP. `browser_smoke.py` precisa Playwright y Chromium. Dada la política de red y WebGL del entorno donde se desarrolló esta edición, inyecta HTML y JS en una página local de pruebas; **los controles 3D y la recuperación de contexto se verifican con un renderizador simulado**, no con una GPU. Consulta `QA.md` para conocer el alcance, las pruebas completadas y las pendientes.
 
 ## Publicación en GitHub Pages
 
 El proyecto usa enlaces relativos y es apto para servir desde la raíz de un repositorio en Pages. **Aún no se ha subido automáticamente a GitHub.** Ver `GITHUB_SETUP.md` y `QA.md` antes de publicar. Está pendiente decidir la licencia del repositorio y revisar compatibilidad y rendimiento en hardware real.
+
+Consulta [docs/ESTADO_RELEASE.md](docs/ESTADO_RELEASE.md) para ver lo que falta y el tiempo estimado de validación.
 
 ## Derechos de autor
 

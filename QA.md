@@ -1,4 +1,38 @@
-# Informe QA — WONDERS 404 Definitive RC1
+# Informe QA — WONDERS 404 Remasterización visual, fase Eiffel
+
+## Resiliencia ante pérdida de contexto WebGL — 12 de octubre de 2026
+
+- Las siete escenas cancelan su `requestAnimationFrame` al recibir `webglcontextlost` y notifican que intentarán recuperarse.
+- En `webglcontextrestored`, reconstruyen el renderer y sus buffers a partir de la geometría conservada; reanudan la animación si la página está visible.
+- `tests/browser_smoke.py` ahora simula ambos eventos con un renderer stub y comprueba el aviso y una segunda inicialización del renderer.
+- La verificación base confirma que los siete escenarios tienen ambos manejadores y la reconstrucción.
+- **Pendiente:** ejecutar el smoke Playwright; aún no está instalado aquí. La simulación no prueba una recuperación real del driver/GPU.
+
+## Comprobación manual comunicada — 12 de octubre de 2026
+
+El usuario indicó que la prueba general en escritorio y móvil «va bien». No se registraron navegador, sistema operativo, escenas ni controles concretos; se considera un smoke test positivo informado por el usuario, no evidencia de haber completado toda la matriz de aceptación.
+
+## Comprobación base repetible — 12 de octubre de 2026
+
+Se añadió `python3 tests/run_core_qa.py`, una verificación sin paquetes Python de terceros (requiere Node.js para validar y ejecutar los módulos de geometría).
+
+- Sintaxis JavaScript: **31 archivos** pasan con `node --check`.
+- Geometría procedural: **7/7 modelos** generan caras y vértices finitos. Recuento: Taj 13.086 caras, Coliseo 8.703, Guiza 2.892, Machu Picchu 8.477, Petra 3.248, Angkor 7.158 y Sagrada Família 7.581.
+- HTML: **9 páginas** y **33 referencias locales** resueltas.
+- Eiffel: **3/3 GLB** con cabecera v2, longitud, JSON y mallas válidos.
+- HTTP local: **no ejecutable en este entorno**; el sandbox bloquea la apertura de sockets (`Operation not permitted`). El mismo script lo prueba al ejecutarse localmente y reporta este bloqueo como `SKIP`.
+- Pruebas pytest y navegador: **no ejecutables aquí** porque faltan `pytest`, Playwright y Chromium. No se marcan como superadas.
+
+Este control no prueba compilación de shaders, dibujo WebGL, respuesta visual de los controles, FPS ni consumo de memoria.
+
+## Remasterización visual — 12 de octubre de 2026
+
+- Comprobada sintaxis de todos los módulos JavaScript.
+- Ejecutadas directamente las 15 pruebas estáticas del proyecto; todas pasan. Este entorno no incluye pytest ni Playwright.
+- Generados los siete modelos y comprobadas sus coordenadas finitas: Taj 13.086 caras, Coliseo 8.703, Guiza 2.892, Machu Picchu 8.477, Petra 3.248, Angkor 7.158 y Sagrada Família 7.581.
+- Las cuatro paradas de Guiza tienen un foco propio interpolado. Las escenas restantes conservan su foco predeterminado.
+- **Pendiente de validación visual:** recorrer las ocho experiencias con WebGL, comprobar órbita, zoom, encuadre y capturas de día y noche; revisar fluidez en Windows, Linux Mint y móvil.
+- El visor Eiffel usa un motor propio. La caída a modo compatible observada en un navegador de revisión no demuestra un defecto reproducible de la aplicación; requiere prueba en un equipo con WebGL disponible.
 
 **Fecha:** 11 de octubre de 2026. **Estado:** RC / pendientes pruebas de hardware.
 

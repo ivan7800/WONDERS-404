@@ -6,7 +6,25 @@ export function angkor(){
  const terrace=(x,y,z,w,d,h=1)=>{box(x,y,z,w,h,d,stone);box(x,y+h,z,w+1,.35,d+1,bright)};
  const tower=(x,y,z,scale=1)=>{
   const tiers=[[0,7,8.8],[6,6.2,7.5],[12.5,5.2,6.2],[18,4.1,5],[23,3.2,3.7],[27,2.3,3.0],[30,1.3,3.1]];
-  for(const [level,w,h] of tiers){box(x,y+level*scale,z,w*scale,h*scale,w*scale,level%2?stone:shade);box(x,y+(level+h-.4)*scale,z,(w+1)*scale,.65*scale,(w+1)*scale,bright)}
+  for(let i=0;i<tiers.length;i++){
+   const [level,w,h]=tiers[i],next=tiers[i+1]?.[1]??.55;
+   box(x,y+level*scale,z,w*scale,h*scale,w*scale,level%2?stone:shade);
+   box(x,y+(level+h-.4)*scale,z,(w+1)*scale,.65*scale,(w+1)*scale,bright);
+   // Recessed, tapered upper chamber and a dark doorway on the approach side.
+   if(i>0&&i<tiers.length-1){
+    const inset=w*.72;
+    box(x,y+(level+h*.48)*scale,z+inset*.48,(w*.24)*scale,(h*.43)*scale,.12*scale,shade);
+    for(const side of [-1,1]){
+     const bx=x+side*(w*.34)*scale;
+     box(bx,y+level*scale,z+inset*.50,.12*scale,h*.55*scale,.14*scale,bright);
+    }
+   }
+   if(i===tiers.length-1){
+    // Compact lotus-bud crown, keeping the characteristic Khmer skyline.
+    for(let k=0;k<4;k++)box(x,y+(level+h+k*.45)*scale,z,
+      (1.8-k*.31)*scale,.42*scale,(1.8-k*.31)*scale,k%2?stone:bright);
+   }
+  }
   // Angular Khmer silhouette with ascending layered cornices.
   for(let k=0;k<4;k++){const r=(3.9-k*.8)*scale;box(x,y+(13+k*5)*scale,z,r*2,1.1*scale,r*2,k%2?bright:stone)}
  };
@@ -18,6 +36,11 @@ export function angkor(){
  // Elevated front causeway and paved ceremonial road.
  box(0,-1.4,36,8,.5,88,path);
  for(let i=0;i<22;i++)box(0,-.85,75-i*4,8.8,.08,.16,bright);
+ for(const side of [-1,1])for(let i=0;i<18;i++){
+  const z=65-i*3.45,x=side*(4.8+Math.sin(i*.22)*.35);
+  box(x,-.65,z,.72,.82,.72,i%3?stone:bright);
+  box(x,-.02,z,.95,.16,.95,bright);
+ }
  // Outer gallery: visually readable courtyards and colonnades.
  const ring=(halfX,halfZ,y,height)=>{
   for(const z of [-halfZ,halfZ]){box(0,y,z,halfX*2,height,2.8,shade);box(0,y+height,z,halfX*2+.8,.9,3.7,bright)}

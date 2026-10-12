@@ -1,0 +1,17 @@
+# Python/local test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Browser automation output
+playwright-report/
+test-results/
+trace.zip
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

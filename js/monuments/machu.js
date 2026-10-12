@@ -16,10 +16,29 @@ export function machu(){
  // Terrazas cultivables laterales con muros de piedra escalonados.
  for(const side of [-1,1])for(let k=0;k<14;k++){const x=side*(24+k*2.8),z=15-k*3.6,y=-.3-k*.68;box(x,y-1.3,z,7.5,1.7,7.1,stoneDark);box(x,y-.04,z,7.1,.12,6.7,k%3?grass:grass2)}
  // Conjuntos de recintos incas: muros incompletos, patios y accesos libres.
- function ruin(x,z,w,d,h=2.7){const y=1.6;box(x-w/2,y,z,.9,h,d,stone);box(x+w/2,y,z,.9,h,d,stoneLight);box(x,y,z-d/2,w,.95,.75,stone);box(x-w*.28,y,z+d/2,w*.44,h,.8,stoneDark);box(x+w*.28,y,z+d/2,w*.44,h,.8,stone)}
+ function ruin(x,z,w,d,h=2.7){
+  const y=1.6,front=z+d/2+.42;
+  box(x-w/2,y,z,.9,h,d,stone);box(x+w/2,y,z,.9,h,d,stoneLight);
+  box(x,y,z-d/2,w,.95,.75,stone);
+  box(x-w*.28,y,z+d/2,w*.44,h,.8,stoneDark);box(x+w*.28,y,z+d/2,w*.44,h,.8,stone);
+  // Dark trapezoidal doorway and offset joints evoke fitted Inca masonry.
+  face([[x-.78,1.65,front],[x+.78,1.65,front],[x+.62,3.95,front],[x-.62,3.95,front]],earth);
+  for(let row=0;row<3;row++)for(let col=0;col<4;col++){
+   const xx=x-w*.42+col*w*.28,yy=1.8+row*.78;
+   if(Math.abs(xx-x)<.8&&yy<3.9)continue;
+   box(xx,yy,z+d/2+.42,w*.23,.055,.035,(row+col)%3?stoneLight:stoneDark);
+  }
+  box(x,4.47,z+d/2+.43,w*.57,.18,.16,stoneLight);
+ }
  for(let i=0;i<16;i++){const row=Math.floor(i/4),col=i%4;ruin(-19+col*12,-20+row*11,7.8,6.2,2.2+(i%4)*.25)}
  // Templo de tres ventanas y muro ceremonial (interpretación simplificada).
  box(14,2.9,-12,1.3,5,16,stoneLight);for(let j=0;j<4;j++)box(8+j*3.8,2.9,-20,1.15,4.7,1.4,stone);box(14,7.4,-20,15.7,1.1,1.4,stone);
+ // Three trapezoidal temple openings set into the ceremonial wall.
+ for(let j=0;j<3;j++){
+  const x=8+j*3.8,z=-19.24,w=1.55,h=3.25;
+  face([[x-w/2,3.05,z],[x+w/2,3.05,z],[x+w*.36,3.05+h,z],[x-w*.36,3.05+h,z]],earth);
+  box(x,6.35,z,.12,.22,.12,stoneLight);
+ }
  // Escalera de acceso y patios.
  for(let i=0;i<12;i++)box(1,-.4+i*.19,36-i*2.9,3.6,.18,2.55,stoneLight);
  // Llamas de piedra abstractas y vegetación baja como elementos de escala.

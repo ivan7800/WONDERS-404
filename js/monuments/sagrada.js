@@ -18,6 +18,12 @@ export function sagrada(){
  box(0,0,0,40,21,68,sand);box(0,0,0,62,19,22,stone);
  box(0,21,0,36,3,65,shadow);box(0,24,0,12,5,64,cream);
  for(let z=-26;z<=26;z+=8){box(-21,0,z,3.5,16,4.7,cream);box(21,0,z,3.5,16,4.7,cream);box(-20,12,z,1,5,2,tile);box(20,12,z,1,5,2,tile)}
+ // Side buttresses break the long nave wall into the strong vertical rhythm of a basilica.
+ for(const side of [-1,1])for(let z=-27;z<=27;z+=9){
+  const x=side*22.4;
+  add([[x-side*2,0,z-1.5],[x+side*2.6,0,z-1.5],[x,19,z-1.5]],stone);
+  box(x,18,z,4.6,1.0,4.3,cream);
+ }
  // Pointed façades and recessed portals, viewed from the front (positive Z).
  box(0,0,36,51,24,7,stone);
  for(let x of [-15,0,15]){box(x,0,40,8,16,1.3,shadow);box(x,13,40.5,10,3,1.8,cream);ring(x,17,40.2,5,0,6,9,sand)}
@@ -26,6 +32,11 @@ export function sagrada(){
  for(let [x,z,h,r] of [[-24,33,56,3.6],[-9,34,69,3.9],[9,34,66,3.9],[24,33,55,3.6],[-24,-32,65,3.8],[-9,-33,78,3.9],[9,-33,74,3.9],[24,-32,64,3.8]])spire(x,z,h,r);
  // Tall central towers symbolically represent the skyline, not exact count or construction state.
  spire(0,-4,99,5.3);for(let [x,z] of [[-17,-7],[17,-7],[-17,10],[17,10]])spire(x,z,58,2.9);
+ // Sculptural finials above the smaller facade pinnacles.
+ for(const x of [-24,-9,9,24])for(const z of [-32,33]){
+  const height=x===-9||x===9?3.2:2.5;
+  ring(x,56,z,.92,.18,height,9,gold);
+ }
  // Stained glass window accents.
  for(let z=-23;z<=23;z+=10)for(let x of [-19.8,19.8])for(let y of [6,11])box(x,y,z,1.4,2.8,2.8,(z+y)%3===0?tile:gold);
  // Steps and rows of small sculptural pinnacles.

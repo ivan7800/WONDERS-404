@@ -63,7 +63,7 @@ def test_scene(browser,which,model,fn):
     css(p,f'scenes/{which}/scene.css');css(p,'js/core/experience.css')
     # DOM/interactions use a stub renderer: headless Chromium has WebGL disabled.
     # Native shader/rendering is NOT considered browser-verified by this test.
-    renderer='function createRenderer(canvas,faces){if(!faces.length)throw Error(\"Modelo vacío\");window.__renderFaceCount=faces.length;return {draw(){window.__draws=(window.__draws||0)+1}}}'
+    renderer='function createRenderer(canvas,faces){if(!faces.length)throw Error(\"Modelo vacío\");window.__renderFaceCount=faces.length;window.__rendererCreations=(window.__rendererCreations||0)+1;return {draw(){window.__draws=(window.__draws||0)+1}}}'
     geometry=script(f'js/monuments/{model}.js').replace(f'export function {fn}',f'function {fn}')
     data=script(f'scenes/{which}/tour-data.js').replace('export const points=','const points=')
     scene=re.sub(r'^import .*?;\s*','',script(f'scenes/{which}/scene.js'),flags=re.M)
@@ -102,10 +102,16 @@ def test_scene(browser,which,model,fn):
     assert not p.locator('body').evaluate('(el)=>el.classList.contains("photo-mode")')
     p.locator('#capture').click()
     p.locator('#reset').click()
+    lost_prevented=p.evaluate('''()=>{const event=new Event('webglcontextlost',{cancelable:true});document.querySelector('#view').dispatchEvent(event);return event.defaultPrevented}''')
+    assert lost_prevented,(which,'no se previno la pérdida de contexto')
+    assert 'Intentando recuperar' in p.locator('#message').inner_text(),(which,'sin estado de recuperación')
+    p.evaluate("document.querySelector('#view').dispatchEvent(new Event('webglcontextrestored'))")
+    assert p.evaluate('window.__rendererCreations')==2,(which,'el renderizador no se reconstruyó')
+    assert 'WebGL restaurado' in p.locator('#message').inner_text(),(which,'sin confirmación de restauración')
     if which=='taj':p.screenshot(path='/mnt/data/wonders-taj-dom-qa.png',full_page=True)
     assert not errors,(which,errors)
     p.close()
-    return f'{which}: controles con renderizador simulado, 4 POI, luz, órbita, tour, foto, calidad y reset OK'
+    return f'{which}: controles con renderizador simulado, 4 POI, luz, órbita, tour, foto, calidad, reset y recuperación simulada de contexto OK'
 
 def test_mobile(browser):
     page=browser.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
